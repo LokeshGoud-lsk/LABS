@@ -1,0 +1,2947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AYUSH Care — Patient Case Management</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+
+:root{
+    --primary:#087f68;
+    --primary-dark:#056653;
+    --secondary:#14a085;
+    --bg:#f4f8f7;
+    --card:#ffffff;
+    --text:#18312d;
+    --muted:#71827f;
+    --border:#dce8e5;
+    --danger:#dc4c4c;
+    --warning:#e6a321;
+    --success:#17966f;
+    --shadow:0 8px 30px rgba(22,65,57,.08);
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* LOGIN */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle at 10% 10%,#d6f4ec,transparent 30%),
+        radial-gradient(circle at 90% 90%,#d8eee9,transparent 30%),
+        #f3f8f7;
+}
+
+.login-box{
+    width:420px;
+    background:white;
+    padding:40px;
+    border-radius:24px;
+    box-shadow:0 25px 70px rgba(0,60,50,.13);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:var(--primary);
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    background:var(--primary);
+    color:white;
+    display:grid;
+    place-items:center;
+    font-size:23px;
+}
+
+.login-box h1{
+    margin-top:35px;
+    font-size:31px;
+}
+
+.login-box p{
+    color:var(--muted);
+    margin:8px 0 28px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    outline:none;
+    background:white;
+    color:var(--text);
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(8,127,104,.1);
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.btn{
+    border:0;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-light{
+    background:#edf5f3;
+    color:var(--primary);
+}
+
+.btn-danger{
+    background:#fff0f0;
+    color:var(--danger);
+}
+
+.login-btn{
+    width:100%;
+    margin-top:5px;
+    padding:14px;
+}
+
+.demo{
+    margin-top:20px;
+    background:#f3f8f7;
+    padding:12px;
+    border-radius:10px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* APP */
+
+.app{
+    display:none;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    background:#103a33;
+    color:white;
+    padding:22px 15px;
+    z-index:10;
+}
+
+.sidebar .logo{
+    color:white;
+    padding:0 10px 28px;
+}
+
+.sidebar .logo-icon{
+    background:#19a889;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.nav button{
+    border:0;
+    background:transparent;
+    color:#cce0dc;
+    text-align:left;
+    padding:12px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:rgba(255,255,255,.1);
+    color:white;
+}
+
+.nav-title{
+    color:#769891;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    padding:20px 14px 6px;
+}
+
+.logout{
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    right:15px;
+}
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+.search{
+    width:360px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#d9f1eb;
+    color:var(--primary);
+    display:grid;
+    place-items:center;
+    font-weight:800;
+}
+
+.content{
+    padding:30px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+/* DASHBOARD */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:17px;
+    padding:21px;
+    box-shadow:var(--shadow);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    background:#e5f5f0;
+    display:grid;
+    place-items:center;
+    font-size:20px;
+}
+
+.stat-card small{
+    color:var(--muted);
+}
+
+.stat-card h2{
+    margin-top:13px;
+    font-size:30px;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+    margin-top:20px;
+}
+
+.card{
+    background:white;
+    border-radius:17px;
+    padding:22px;
+    box-shadow:var(--shadow);
+}
+
+.card h3{
+    margin-bottom:18px;
+}
+
+.table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:13px 10px;
+    border-bottom:1px solid #edf2f1;
+    text-align:left;
+    font-size:14px;
+}
+
+th{
+    color:var(--muted);
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.badge-success{
+    background:#e2f6ee;
+    color:#13845f;
+}
+
+.badge-warning{
+    background:#fff3d9;
+    color:#a86d00;
+}
+
+.badge-danger{
+    background:#ffe6e6;
+    color:#bd3535;
+}
+
+.badge-info{
+    background:#e4f0ff;
+    color:#2870ad;
+}
+
+/* PATIENT */
+
+.patient-toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.patient-toolbar input{
+    max-width:420px;
+}
+
+.patient-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.patient-card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.patient-card:hover{
+    transform:translateY(-3px);
+}
+
+.patient-head{
+    display:flex;
+    gap:13px;
+    align-items:center;
+}
+
+.patient-avatar{
+    width:45px;
+    height:45px;
+    background:#e3f4ef;
+    color:var(--primary);
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    font-weight:800;
+}
+
+.patient-card h3{
+    font-size:17px;
+}
+
+.patient-card p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:4px;
+}
+
+.patient-info{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.patient-info div{
+    background:#f7faf9;
+    padding:9px;
+    border-radius:8px;
+}
+
+.patient-info small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.patient-info span{
+    font-size:13px;
+    font-weight:600;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,20,17,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:20px;
+    padding:27px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.close{
+    border:0;
+    background:#f0f3f2;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+/* CASE */
+
+.case-layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:20px;
+}
+
+.steps{
+    background:white;
+    border-radius:16px;
+    padding:15px;
+    height:max-content;
+}
+
+.step{
+    padding:12px;
+    border-radius:9px;
+    margin-bottom:5px;
+    font-size:13px;
+    color:var(--muted);
+    cursor:pointer;
+}
+
+.step.active{
+    background:#e5f5f0;
+    color:var(--primary);
+    font-weight:700;
+}
+
+.case-form{
+    background:white;
+    border-radius:16px;
+    padding:28px;
+}
+
+.progress{
+    height:7px;
+    background:#e7efed;
+    border-radius:10px;
+    margin:15px 0 25px;
+}
+
+.progress-bar{
+    height:100%;
+    width:8%;
+    background:var(--primary);
+    border-radius:10px;
+    transition:.3s;
+}
+
+.case-step{
+    display:none;
+}
+
+.case-step.active{
+    display:block;
+}
+
+.case-actions{
+    display:flex;
+    justify-content:space-between;
+    margin-top:30px;
+    border-top:1px solid var(--border);
+    padding-top:20px;
+}
+
+.complaint{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.remove{
+    border:0;
+    background:#ffeaea;
+    color:#c33;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* TIMELINE */
+
+.timeline{
+    position:relative;
+    margin-left:15px;
+    padding-left:25px;
+    border-left:2px solid #dceae6;
+}
+
+.timeline-item{
+    position:relative;
+    padding:0 0 25px;
+}
+
+.timeline-item:before{
+    content:"";
+    position:absolute;
+    left:-32px;
+    top:2px;
+    width:12px;
+    height:12px;
+    background:var(--primary);
+    border:3px solid #dff4ee;
+    border-radius:50%;
+}
+
+.timeline-item small{
+    color:var(--muted);
+}
+
+/* ALERT */
+
+.alert{
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+.alert-warning{
+    background:#fff5dc;
+    color:#765200;
+}
+
+.alert-success{
+    background:#e5f7f0;
+    color:#176a51;
+}
+
+.completeness{
+    font-size:38px;
+    font-weight:800;
+    color:var(--primary);
+}
+
+.ai-box{
+    background:linear-gradient(135deg,#edf9f6,#f6fbfa);
+    border:1px solid #ccebe3;
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .patient-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .sidebar .logo span,
+    .nav button span,
+    .nav-title{
+        display:none;
+    }
+
+    .nav button{
+        text-align:center;
+        font-size:20px;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .patient-grid,
+    .stats,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .case-layout{
+        grid-template-columns:1fr;
+    }
+
+    .steps{
+        display:flex;
+        overflow:auto;
+        gap:5px;
+    }
+
+    .step{
+        min-width:max-content;
+    }
+
+    .complaint{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-box">
+
+        <div class="logo">
+            <div class="logo-icon">✚</div>
+            <span>LABS</span>
+        </div>
+
+        <h1>Welcome back</h1>
+        <p>Smart Patient Case-Taking Platform</p>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input id="loginEmail" type="email" value="admin@demo.local">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input id="loginPassword" type="password" value="ChangeMe123!">
+        </div>
+
+        <button class="btn btn-primary login-btn" onclick="login()">
+            Sign In
+        </button>
+
+        <div class="demo">
+            <b>Demo Login</b><br>
+            admin@demo.local<br>
+           
+            Password: ChangeMe123!
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<div id="app" class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">✚</div>
+            <span>LABS</span>
+        </div>
+
+        <div class="nav">
+
+            <div class="nav-title">Main</div>
+
+            <button class="active" onclick="showPage('dashboard',this)">
+                📊 <span>Dashboard</span>
+            </button>
+
+            <button onclick="showPage('patients',this)">
+                👥 <span>Patients</span>
+            </button>
+
+            <button onclick="showPage('case',this)">
+                📝 <span>New Case</span>
+            </button>
+
+            <button onclick="showPage('appointments',this)">
+                📅 <span>Appointments</span>
+            </button>
+
+            <button onclick="showPage('followups',this)">
+                🔔 <span>Follow-ups</span>
+            </button>
+
+            <div class="nav-title">Management</div>
+
+            <button onclick="showPage('reports',this)">
+                📄 <span>Reports</span>
+            </button>
+
+            <button onclick="showPage('analytics',this)">
+                📈 <span>Analytics</span>
+            </button>
+
+            <button onclick="showPage('audit',this)">
+                🛡️ <span>Audit Logs</span>
+            </button>
+
+        </div>
+
+        <button class="nav button logout" onclick="logout()">
+            🚪 <span>Logout</span>
+        </button>
+
+    </aside>
+
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <input
+                class="search"
+                placeholder="Search patients, cases, ID..."
+                oninput="globalSearch(this.value)"
+            >
+
+            <div class="user">
+                <div>
+                    <b id="userName">Demo Admin</b><br>
+                    <small id="userRole">Administrator</small>
+                </div>
+                <div class="avatar">A</div>
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+
+            <!-- DASHBOARD -->
+
+            <section id="dashboard" class="page active">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Good Evening 👋</h1>
+                        <p>Here's what's happening in your AYUSH clinic today.</p>
+                    </div>
+
+                    <button class="btn btn-primary"
+                            onclick="showPage('case')">
+                        + New Case
+                    </button>
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <small>Total Patients</small>
+                            <div class="stat-icon">👥</div>
+                        </div>
+                        <h2 id="totalPatients">15</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <small>Active Cases</small>
+                            <div class="stat-icon">📋</div>
+                        </div>
+                        <h2>28</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <small>Follow-ups Due</small>
+                            <div class="stat-icon">🔔</div>
+                        </div>
+                        <h2>8</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <small>Appointments</small>
+                            <div class="stat-icon">📅</div>
+                        </div>
+                        <h2>12</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-grid">
+
+                    <div class="card">
+
+                        <h3>Recent Patients</h3>
+
+                        <div class="table-wrap">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Patient</th>
+                                        <th>ID</th>
+                                        <th>Age</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="recentPatients"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>Smart Assistant</h3>
+
+                        <div class="alert alert-warning">
+                            ⚠️ <b>3 incomplete cases</b><br>
+                            Missing examination or follow-up information.
+                        </div>
+
+                        <div class="alert alert-success">
+                            ✓ <b>5 reports ready</b><br>
+                            Reports are available for review.
+                        </div>
+
+                        <div class="alert alert-warning">
+                            🔔 <b>8 follow-ups due</b><br>
+                            Review today's follow-up schedule.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PATIENTS -->
+
+            <section id="patients" class="page">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1>Patients</h1>
+                        <p>Manage digital patient profiles.</p>
+                    </div>
+
+                    <button class="btn btn-primary"
+                            onclick="openPatientModal()">
+                        + Add Patient
+                    </button>
+
+                </div>
+
+                <div class="patient-toolbar">
+
+                    <input
+                        id="patientSearch"
+                        placeholder="Search by name, ID or mobile..."
+                        oninput="renderPatients()"
+                    >
+
+                    <select id="genderFilter"
+                            onchange="renderPatients()">
+                        <option value="">All Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+
+                </div>
+
+                <div id="patientGrid" class="patient-grid"></div>
+
+            </section>
+
+
+            <!-- CASE -->
+
+            <section id="case" class="page">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1>Digital Case Taking</h1>
+                        <p>Structured AYUSH clinical documentation.</p>
+                    </div>
+
+                    <button class="btn btn-light"
+                            onclick="saveDraft()">
+                        💾 Save Draft
+                    </button>
+
+                </div>
+
+
+                <div class="case-layout">
+
+                    <div class="steps">
+
+                        <div class="step active">1. Patient</div>
+                        <div class="step">2. Complaints</div>
+                        <div class="step">3. History</div>
+                        <div class="step">4. Medical</div>
+                        <div class="step">5. Family</div>
+                        <div class="step">6. Lifestyle</div>
+                        <div class="step">7. Symptoms</div>
+                        <div class="step">8. Examination</div>
+                        <div class="step">9. AYUSH</div>
+                        <div class="step">10. Assessment</div>
+                        <div class="step">11. Treatment</div>
+                        <div class="step">12. Follow-up</div>
+                        <div class="step">13. Review</div>
+
+                    </div>
+
+
+                    <div class="case-form">
+
+                        <div class="progress">
+                            <div id="progressBar"
+                                 class="progress-bar"></div>
+                        </div>
+
+
+                        <!-- STEP 1 -->
+
+                        <div class="case-step active">
+
+                            <h2>Patient Information</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Patient</label>
+                                    <select id="casePatient"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Case Date</label>
+                                    <input type="date" id="caseDate">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 2 -->
+
+                        <div class="case-step">
+
+                            <h2>Chief Complaints</h2>
+
+                            <p style="color:#71827f;margin:7px 0 20px">
+                                Record multiple complaints.
+                            </p>
+
+                            <div id="complaints">
+
+                                <div class="complaint">
+
+                                    <input placeholder="Complaint">
+
+                                    <input placeholder="Duration">
+
+                                    <select>
+                                        <option>Severity</option>
+                                        <option>Mild</option>
+                                        <option>Moderate</option>
+                                        <option>Severe</option>
+                                    </select>
+
+                                    <button class="remove"
+                                            onclick="this.parentElement.remove()">
+                                        ✕
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <button class="btn btn-light"
+                                    onclick="addComplaint()">
+                                + Add Complaint
+                            </button>
+
+                        </div>
+
+
+                        <!-- STEP 3 -->
+
+                        <div class="case-step">
+
+                            <h2>History of Present Illness</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Onset</label>
+                                    <input placeholder="Sudden / Gradual">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input placeholder="e.g. 3 weeks">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Progression</label>
+                                    <select>
+                                        <option>Stable</option>
+                                        <option>Improving</option>
+                                        <option>Worsening</option>
+                                        <option>Intermittent</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Previous Episodes</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Associated Symptoms</label>
+                                    <textarea></textarea>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Previous Treatment & Response</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 4 -->
+
+                        <div class="case-step">
+
+                            <h2>Past Medical History</h2>
+
+                            <br>
+
+                            <div class="form-group">
+                                <label>Previous Diseases</label>
+                                <textarea placeholder="Enter practitioner-documented history"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Surgeries / Hospitalizations</label>
+                                <textarea></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Allergies</label>
+                                <input placeholder="No known allergies / documented allergy">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Previous Medications / Treatments</label>
+                                <textarea></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 5 -->
+
+                        <div class="case-step">
+
+                            <h2>Family History</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Family Member</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Relationship</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Condition</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Relevant Notes</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 6 -->
+
+                        <div class="case-step">
+
+                            <h2>Diet & Lifestyle</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Diet</label>
+                                    <select>
+                                        <option>Vegetarian</option>
+                                        <option>Non-Vegetarian</option>
+                                        <option>Vegan</option>
+                                        <option>Mixed</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Meal Frequency</label>
+                                    <input placeholder="e.g. 3 meals/day">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Water Intake</label>
+                                    <input placeholder="e.g. 2 litres/day">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sleep Duration</label>
+                                    <input placeholder="e.g. 7 hours">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sleep Quality</label>
+                                    <select>
+                                        <option>Good</option>
+                                        <option>Average</option>
+                                        <option>Poor</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Stress Level</label>
+                                    <select>
+                                        <option>Low</option>
+                                        <option>Moderate</option>
+                                        <option>High</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Daily Routine</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 7 -->
+
+                        <div class="case-step">
+
+                            <h2>Symptoms</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Symptom</label>
+                                    <input placeholder="e.g. Headache">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Location</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Frequency</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Severity</label>
+                                    <select>
+                                        <option>Mild</option>
+                                        <option>Moderate</option>
+                                        <option>Severe</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Aggravating Factors</label>
+                                    <textarea></textarea>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Relieving Factors</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 8 -->
+
+                        <div class="case-step">
+
+                            <h2>Examination</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>General Observation</label>
+                                    <textarea></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Vitals / Measurements</label>
+                                    <textarea></textarea>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Examination Findings</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 9 -->
+
+                        <div class="case-step">
+
+                            <h2>AYUSH Assessment</h2>
+
+                            <br>
+
+                            <div class="form-group">
+                                <label>AYUSH System</label>
+
+                                <select id="ayushSystem"
+                                        onchange="changeAyush()">
+
+                                    <option>Ayurveda</option>
+                                    <option>Yoga & Naturopathy</option>
+                                    <option>Unani</option>
+                                    <option>Siddha</option>
+                                    <option>Homoeopathy</option>
+
+                                </select>
+
+                            </div>
+
+                            <div id="ayurvedaFields">
+
+                                <div class="form-grid">
+
+                                    <div class="form-group">
+                                        <label>Prakriti</label>
+                                        <input>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Vikriti</label>
+                                        <input>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Dosha-related Observations</label>
+                                        <input>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Agni</label>
+                                        <input>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Ama</label>
+                                        <input>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Koshta</label>
+                                        <input>
+                                    </div>
+
+                                    <div class="form-group full">
+                                        <label>Practitioner Observations</label>
+                                        <textarea></textarea>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 10 -->
+
+                        <div class="case-step">
+
+                            <h2>Practitioner's Assessment</h2>
+
+                            <br>
+
+                            <div class="alert alert-warning">
+                                Clinical assessment must be entered and verified by a qualified practitioner.
+                            </div>
+
+                            <div class="form-group">
+                                <label>Assessment / Diagnosis</label>
+                                <textarea></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Clinical Notes</label>
+                                <textarea></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 11 -->
+
+                        <div class="case-step">
+
+                            <h2>Treatment Documentation</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Treatment Name</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Treatment Type</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Frequency</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Instructions</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="alert alert-success">
+                                ✓ Practitioner-entered treatment documentation
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 12 -->
+
+                        <div class="case-step">
+
+                            <h2>Follow-up</h2>
+
+                            <br>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>Follow-up Date</label>
+                                    <input type="date">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select>
+                                        <option>Upcoming</option>
+                                        <option>Due</option>
+                                        <option>Completed</option>
+                                        <option>Missed</option>
+                                        <option>Rescheduled</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full">
+                                    <label>Instructions / Notes</label>
+                                    <textarea></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STEP 13 -->
+
+                        <div class="case-step">
+
+                            <h2>Review & Submit</h2>
+
+                            <br>
+
+                            <div class="card">
+
+                                <span>Documentation Completeness</span>
+
+                                <div class="completeness">92%</div>
+
+                                <div class="progress">
+                                    <div class="progress-bar"
+                                         style="width:92%">
+                                    </div>
+                                </div>
+
+                                <p>
+                                    ✓ Patient Information<br>
+                                    ✓ Chief Complaints<br>
+                                    ✓ History<br>
+                                    ✓ Lifestyle<br>
+                                    ✓ Symptoms<br>
+                                    ✓ Examination<br>
+                                    ✓ AYUSH Assessment<br>
+                                    ✓ Practitioner Assessment<br>
+                                    ✓ Treatment<br>
+                                    ⚠ Follow-up should be reviewed
+                                </p>
+
+                            </div>
+
+
+                            <div class="ai-box">
+
+                                <h3>🤖 Smart Documentation Summary</h3>
+
+                                <br>
+
+                                <p>
+                                    The patient has a documented history of recurring
+                                    symptoms with associated lifestyle observations.
+                                    Practitioner-entered examination and assessment
+                                    information should be reviewed before submission.
+                                </p>
+
+                                <br>
+
+                                <small>
+                                    AI-generated content is provided for documentation
+                                    assistance only. It must be reviewed and verified
+                                    by a qualified practitioner.
+                                </small>
+
+                            </div>
+
+                            <br>
+
+                            <button class="btn btn-primary"
+                                    onclick="submitCase()">
+                                ✓ Submit Case
+                            </button>
+
+                        </div>
+
+
+                        <div class="case-actions">
+
+                            <button id="prevBtn"
+                                    class="btn btn-light"
+                                    onclick="previousStep()">
+                                ← Previous
+                            </button>
+
+                            <button id="nextBtn"
+                                    class="btn btn-primary"
+                                    onclick="nextStep()">
+                                Save & Continue →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- APPOINTMENTS -->
+
+            <section id="appointments" class="page">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Appointments</h1>
+                        <p>Today's clinic schedule.</p>
+                    </div>
+
+                    <button class="btn btn-primary"
+                            onclick="showToast('Appointment form opened')">
+                        + New Appointment
+                    </button>
+                </div>
+
+                <div class="card">
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Patient</th>
+                                    <th>Practitioner</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>09:00 AM</td>
+                                    <td>Rahul Sharma</td>
+                                    <td>Dr. Ananya</td>
+                                    <td>Consultation</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>10:30 AM</td>
+                                    <td>Priya Reddy</td>
+                                    <td>Dr. Ananya</td>
+                                    <td>Follow-up</td>
+                                    <td><span class="badge badge-info">Confirmed</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>11:30 AM</td>
+                                    <td>Arjun Kumar</td>
+                                    <td>Dr. Ravi</td>
+                                    <td>Consultation</td>
+                                    <td><span class="badge badge-warning">Checked-in</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>02:00 PM</td>
+                                    <td>Sneha Rao</td>
+                                    <td>Dr. Ravi</td>
+                                    <td>Follow-up</td>
+                                    <td><span class="badge badge-info">Scheduled</span></td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOLLOW UPS -->
+
+            <section id="followups" class="page">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1>Follow-ups</h1>
+                        <p>Monitor upcoming patient follow-ups.</p>
+                    </div>
+
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <small>Upcoming</small>
+                        <h2>8</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Due Today</small>
+                        <h2>3</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Completed</small>
+                        <h2>24</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Missed</small>
+                        <h2>2</h2>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="card">
+
+                    <h3>Follow-up Queue</h3>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Patient ID</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Priya Reddy</td>
+                                <td>AYU-2026-000102</td>
+                                <td>Today</td>
+                                <td><span class="badge badge-warning">Due</span></td>
+                                <td><button class="btn btn-light">Review</button></td>
+                            </tr>
+
+                            <tr>
+                                <td>Rahul Sharma</td>
+                                <td>AYU-2026-000101</td>
+                                <td>Sep 03</td>
+                                <td><span class="badge badge-info">Upcoming</span></td>
+                                <td><button class="btn btn-light">Review</button></td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- REPORTS -->
+
+            <section id="reports" class="page">
+
+                <div class="page-header">
+                    <div>
+                        <h1>Reports</h1>
+                        <p>Generate structured clinical documentation.</p>
+                    </div>
+                </div>
+
+                <div class="patient-grid">
+
+                    <div class="card">
+                        <h3>📄 Patient Case Report</h3>
+                        <p>Complete documented case information.</p>
+                        <br>
+                        <button class="btn btn-primary"
+                                onclick="generateReport()">
+                            Generate PDF
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h3>📋 Visit Summary</h3>
+                        <p>Summary of a patient's documented visit.</p>
+                        <br>
+                        <button class="btn btn-light"
+                                onclick="showToast('Visit summary generated')">
+                            Generate
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h3>📊 Patient Timeline</h3>
+                        <p>Chronological record of documented events.</p>
+                        <br>
+                        <button class="btn btn-light"
+                                onclick="showToast('Timeline report generated')">
+                            Generate
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ANALYTICS -->
+
+            <section id="analytics" class="page">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1>Analytics</h1>
+                        <p>Clinic performance overview.</p>
+                    </div>
+
+                    <select style="width:150px">
+                        <option>Last 30 Days</option>
+                        <option>Last 7 Days</option>
+                        <option>3 Months</option>
+                    </select>
+
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <small>New Registrations</small>
+                        <h2>124</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Consultations</small>
+                        <h2>286</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Follow-up Rate</small>
+                        <h2>82%</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Case Completion</small>
+                        <h2>91%</h2>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="card">
+
+                    <h3>Monthly Patient Trend</h3>
+
+                    <div style="height:250px;display:flex;align-items:end;gap:15px;padding:20px">
+
+                        <div style="height:45%;flex:1;background:#bce8dc;border-radius:8px 8px 0 0"></div>
+                        <div style="height:60%;flex:1;background:#8fd5c5;border-radius:8px 8px 0 0"></div>
+                        <div style="height:52%;flex:1;background:#62c2ad;border-radius:8px 8px 0 0"></div>
+                        <div style="height:72%;flex:1;background:#3bb29b;border-radius:8px 8px 0 0"></div>
+                        <div style="height:82%;flex:1;background:#159c82;border-radius:8px 8px 0 0"></div>
+                        <div style="height:94%;flex:1;background:#087f68;border-radius:8px 8px 0 0"></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- AUDIT -->
+
+            <section id="audit" class="page">
+
+                <div class="page-header">
+
+                    <div>
+                        <h1>Audit Logs</h1>
+                        <p>Track important system activities.</p>
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Resource</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Dr. Ananya</td>
+                                <td>Created patient case</td>
+                                <td>CASE-1042</td>
+                                <td>Sep 01, 2026 09:42 PM</td>
+                            </tr>
+
+                            <tr>
+                                <td>Reception</td>
+                                <td>Registered patient</td>
+                                <td>AYU-2026-000124</td>
+                                <td>Sep 01, 2026 08:35 PM</td>
+                            </tr>
+
+                            <tr>
+                                <td>Admin</td>
+                                <td>Changed user role</td>
+                                <td>USER-003</td>
+                                <td>Sep 01, 2026 07:21 PM</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- PATIENT MODAL -->
+
+<div id="patientModal" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Register New Patient</h2>
+
+            <button class="close"
+                    onclick="closePatientModal()">✕</button>
+
+        </div>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input id="pName">
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input id="pDob" type="date">
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <select id="pGender">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Mobile *</label>
+                <input id="pMobile">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input id="pEmail" type="email">
+            </div>
+
+            <div class="form-group">
+                <label>Occupation</label>
+                <input id="pOccupation">
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <input id="pCity">
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input id="pState" value="Telangana">
+            </div>
+
+            <div class="form-group full">
+                <label>Address</label>
+                <textarea id="pAddress"></textarea>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary"
+                onclick="addPatient()">
+            Register Patient
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast"
+style="
+position:fixed;
+bottom:25px;
+right:25px;
+background:#103a33;
+color:white;
+padding:14px 20px;
+border-radius:10px;
+display:none;
+z-index:100;
+box-shadow:0 10px 30px #0003;
+">
+</div>
+
+
+<script>
+
+const API = "http://localhost:3000/api";
+
+let currentUser = null;
+
+let patients = [
+    {
+        id:"AYU-2026-000101",
+        name:"Rahul Sharma",
+        age:32,
+        gender:"Male",
+        mobile:"9876543210",
+        city:"Hyderabad"
+    },
+    {
+        id:"AYU-2026-000102",
+        name:"Priya Reddy",
+        age:28,
+        gender:"Female",
+        mobile:"9988776655",
+        city:"Hyderabad"
+    },
+    {
+        id:"AYU-2026-000103",
+        name:"Arjun Kumar",
+        age:41,
+        gender:"Male",
+        mobile:"9876501234",
+        city:"Secunderabad"
+    },
+    {
+        id:"AYU-2026-000104",
+        name:"Sneha Rao",
+        age:35,
+        gender:"Female",
+        mobile:"9123456789",
+        city:"Hyderabad"
+    },
+    {
+        id:"AYU-2026-000105",
+        name:"Vikram Singh",
+        age:45,
+        gender:"Male",
+        mobile:"9000012345",
+        city:"Hyderabad"
+    },
+    {
+        id:"AYU-2026-000106",
+        name:"Anjali Devi",
+        age:26,
+        gender:"Female",
+        mobile:"9111122233",
+        city:"Warangal"
+    }
+];
+
+
+// LOGIN
+
+async function login(){
+
+    const email =
+        document.getElementById("loginEmail").value;
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+    try{
+
+        const response = await fetch(API+"/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        if(response.ok){
+
+            const data = await response.json();
+
+            currentUser = data.user;
+
+        }else{
+
+            // Demo fallback
+            if(
+                password !== "ChangeMe123!"
+            ){
+                showToast("Invalid password");
+                return;
+            }
+
+            currentUser={
+                name:email.split("@")[0],
+                role:email.includes("doctor")
+                    ?"Practitioner"
+                    :email.includes("reception")
+                    ?"Receptionist"
+                    :"Administrator"
+            };
+
+        }
+
+    }catch(error){
+
+        if(password !== "ChangeMe123!"){
+            showToast("Invalid password");
+            return;
+        }
+
+        currentUser={
+            name:email.split("@")[0],
+            role:"Administrator"
+        };
+
+    }
+
+    document.getElementById("loginPage").style.display="none";
+
+    document.getElementById("app").style.display="block";
+
+    document.getElementById("userName").innerText=
+        currentUser.name || "Demo User";
+
+    document.getElementById("userRole").innerText=
+        currentUser.role || "Administrator";
+
+    renderPatients();
+
+    renderRecent();
+
+    populateCasePatients();
+
+    showToast("Login successful ✓");
+}
+
+
+// LOGOUT
+
+function logout(){
+
+    document.getElementById("app").style.display="none";
+
+    document.getElementById("loginPage").style.display="flex";
+
+    showToast("Logged out");
+
+}
+
+
+// PAGE NAVIGATION
+
+function showPage(page,button){
+
+    document.querySelectorAll(".page")
+        .forEach(p=>p.classList.remove("active"));
+
+    const target=document.getElementById(page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    if(button){
+
+        document.querySelectorAll(".nav button")
+            .forEach(b=>b.classList.remove("active"));
+
+        button.classList.add("active");
+
+    }
+
+}
+
+
+// PATIENTS
+
+function renderPatients(){
+
+    const grid=document.getElementById("patientGrid");
+
+    if(!grid)return;
+
+    const search=
+        (document.getElementById("patientSearch")?.value || "")
+        .toLowerCase();
+
+    const gender=
+        document.getElementById("genderFilter")?.value || "";
+
+    const filtered=patients.filter(p=>
+        (
+            p.name+
+            p.id+
+            p.mobile+
+            p.city
+        ).toLowerCase().includes(search)
+        &&
+        (!gender || p.gender===gender)
+    );
+
+    grid.innerHTML="";
+
+    filtered.forEach(p=>{
+
+        const initials=
+            p.name
+            .split(" ")
+            .map(x=>x[0])
+            .join("")
+            .substring(0,2)
+            .toUpperCase();
+
+        grid.innerHTML+=`
+
+        <div class="patient-card"
+             onclick="viewPatient('${p.id}')">
+
+            <div class="patient-head">
+
+                <div class="patient-avatar">
+                    ${initials}
+                </div>
+
+                <div>
+                    <h3>${p.name}</h3>
+                    <p>${p.id}</p>
+                </div>
+
+            </div>
+
+            <div class="patient-info">
+
+                <div>
+                    <small>Age</small>
+                    <span>${p.age || "—"}</span>
+                </div>
+
+                <div>
+                    <small>Gender</small>
+                    <span>${p.gender}</span>
+                </div>
+
+                <div>
+                    <small>Mobile</small>
+                    <span>${p.mobile}</span>
+                </div>
+
+                <div>
+                    <small>City</small>
+                    <span>${p.city || "—"}</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    document.getElementById("totalPatients").innerText=
+        patients.length + 9;
+
+}
+
+
+// PATIENT MODAL
+
+function openPatientModal(){
+
+    document.getElementById("patientModal")
+        .classList.add("show");
+
+}
+
+function closePatientModal(){
+
+    document.getElementById("patientModal")
+        .classList.remove("show");
+
+}
+
+
+// ADD PATIENT
+
+async function addPatient(){
+
+    const name=
+        document.getElementById("pName").value.trim();
+
+    const mobile=
+        document.getElementById("pMobile").value.trim();
+
+    if(!name || !mobile){
+
+        showToast("Name and mobile are required");
+
+        return;
+
+    }
+
+    const patient={
+
+        id:
+            "AYU-2026-"+String(
+                107+patients.length
+            ).padStart(6,"0"),
+
+        name:name,
+
+        age:calculateAge(
+            document.getElementById("pDob").value
+        ),
+
+        gender:
+            document.getElementById("pGender").value,
+
+        mobile:mobile,
+
+        email:
+            document.getElementById("pEmail").value,
+
+        occupation:
+            document.getElementById("pOccupation").value,
+
+        city:
+            document.getElementById("pCity").value,
+
+        state:
+            document.getElementById("pState").value,
+
+        address:
+            document.getElementById("pAddress").value
+
+    };
+
+    patients.unshift(patient);
+
+    try{
+
+        await fetch(API+"/patients",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(patient)
+        });
+
+    }catch(e){}
+
+    closePatientModal();
+
+    renderPatients();
+
+    renderRecent();
+
+    populateCasePatients();
+
+    showToast(
+        "Patient registered: "+patient.id
+    );
+
+    document
+        .querySelectorAll("#patientModal input,#patientModal textarea")
+        .forEach(x=>x.value="");
+
+}
+
+
+// AGE
+
+function calculateAge(dob){
+
+    if(!dob)return "";
+
+    const birth=new Date(dob);
+
+    const today=new Date();
+
+    let age=
+        today.getFullYear()-
+        birth.getFullYear();
+
+    const m=
+        today.getMonth()-
+        birth.getMonth();
+
+    if(
+        m<0 ||
+        (m===0 &&
+        today.getDate()<birth.getDate())
+    ){
+        age--;
+    }
+
+    return age;
+
+}
+
+
+// VIEW PATIENT
+
+function viewPatient(id){
+
+    const p=patients.find(x=>x.id===id);
+
+    if(!p)return;
+
+    showToast(
+        `${p.name} | ${p.id} | ${p.mobile}`
+    );
+
+}
+
+
+// RECENT
+
+function renderRecent(){
+
+    const body=
+        document.getElementById("recentPatients");
+
+    if(!body)return;
+
+    body.innerHTML="";
+
+    patients.slice(0,5).forEach(p=>{
+
+        body.innerHTML+=`
+
+        <tr>
+
+            <td><b>${p.name}</b></td>
+
+            <td>${p.id}</td>
+
+            <td>${p.age || "—"}</td>
+
+            <td>
+                <span class="badge badge-success">
+                    Active
+                </span>
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+// CASE PATIENT DROPDOWN
+
+function populateCasePatients(){
+
+    const select=
+        document.getElementById("casePatient");
+
+    if(!select)return;
+
+    select.innerHTML=
+        `<option value="">Select patient</option>`;
+
+    patients.forEach(p=>{
+
+        select.innerHTML+=`
+            <option value="${p.id}">
+                ${p.name} — ${p.id}
+            </option>
+        `;
+
+    });
+
+}
+
+
+// CASE WIZARD
+
+let currentStep=0;
+
+const caseSteps=
+    document.querySelectorAll(".case-step");
+
+const stepButtons=
+    document.querySelectorAll(".step");
+
+function updateCase(){
+
+    caseSteps.forEach((s,i)=>
+        s.classList.toggle(
+            "active",
+            i===currentStep
+        )
+    );
+
+    stepButtons.forEach((s,i)=>
+        s.classList.toggle(
+            "active",
+            i===currentStep
+        )
+    );
+
+    document.getElementById("progressBar")
+        .style.width=
+        ((currentStep+1)/caseSteps.length*100)+"%";
+
+    document.getElementById("prevBtn").style.visibility=
+        currentStep===0
+        ?"hidden"
+        :"visible";
+
+    document.getElementById("nextBtn").innerText=
+        currentStep===caseSteps.length-1
+        ?"Finish"
+        :"Save & Continue →";
+
+}
+
+function nextStep(){
+
+    if(currentStep<caseSteps.length-1){
+
+        currentStep++;
+
+        updateCase();
+
+    }else{
+
+        submitCase();
+
+    }
+
+}
+
+function previousStep(){
+
+    if(currentStep>0){
+
+        currentStep--;
+
+        updateCase();
+
+    }
+
+}
+
+stepButtons.forEach((button,index)=>{
+
+    button.onclick=()=>{
+
+        currentStep=index;
+
+        updateCase();
+
+    };
+
+});
+
+
+// COMPLAINT
+
+function addComplaint(){
+
+    document
+        .getElementById("complaints")
+        .insertAdjacentHTML(
+            "beforeend",
+
+            `
+            <div class="complaint">
+
+                <input placeholder="Complaint">
+
+                <input placeholder="Duration">
+
+                <select>
+                    <option>Severity</option>
+                    <option>Mild</option>
+                    <option>Moderate</option>
+                    <option>Severe</option>
+                </select>
+
+                <button class="remove"
+                        onclick="this.parentElement.remove()">
+                    ✕
+                </button>
+
+            </div>
+            `
+        );
+
+}
+
+
+// AYUSH
+
+function changeAyush(){
+
+    const system=
+        document.getElementById("ayushSystem").value;
+
+    const fields=
+        document.getElementById("ayurvedaFields");
+
+    if(system==="Ayurveda"){
+
+        fields.style.display="block";
+
+    }else{
+
+        fields.innerHTML=`
+
+            <div class="alert alert-success">
+
+                ${system} assessment template selected.
+
+                <br><br>
+
+                Configure practitioner-entered
+                assessment fields according to the
+                selected AYUSH system.
+
+            </div>
+
+            <textarea
+                placeholder="Practitioner observations">
+            </textarea>
+
+        `;
+
+    }
+
+}
+
+
+// SAVE DRAFT
+
+function saveDraft(){
+
+    const patient=
+        document.getElementById("casePatient").value;
+
+    localStorage.setItem(
+        "ayushCaseDraft",
+        JSON.stringify({
+            patient,
+            step:currentStep,
+            savedAt:new Date().toLocaleTimeString()
+        })
+    );
+
+    showToast(
+        "Case draft saved automatically ✓"
+    );
+
+}
+
+
+// SUBMIT
+
+async function submitCase(){
+
+    const patient=
+        document.getElementById("casePatient").value;
+
+    if(!patient){
+
+        showToast(
+            "Please select a patient first"
+        );
+
+        currentStep=0;
+
+        updateCase();
+
+        return;
+
+    }
+
+    const caseData={
+
+        patientId:patient,
+
+        caseDate:
+            document.getElementById("caseDate").value,
+
+        status:"Submitted",
+
+        completeness:92
+
+    };
+
+    try{
+
+        await fetch(API+"/cases",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(caseData)
+        });
+
+    }catch(e){}
+
+    showToast(
+        "Case submitted successfully ✓"
+    );
+
+    setTimeout(()=>{
+
+        currentStep=0;
+
+        updateCase();
+
+    },500);
+
+}
+
+
+// GLOBAL SEARCH
+
+function globalSearch(value){
+
+    const page=
+        document.getElementById("patients");
+
+    if(!page)return;
+
+    if(value.length>0){
+
+        showPage("patients");
+
+        const search=
+            document.getElementById("patientSearch");
+
+        search.value=value;
+
+        renderPatients();
+
+    }
+
+}
+
+
+// REPORT
+
+function generateReport(){
+
+    const content=`
+
+    AYUSH PATIENT CASE REPORT
+
+    Generated: ${new Date().toLocaleString()}
+
+    Patient Case Documentation
+
+    Patient information
+    Chief complaints
+    Medical history
+    Family history
+    Lifestyle
+    Symptoms
+    Examination
+    AYUSH assessment
+    Practitioner assessment
+    Treatment documentation
+    Follow-up
+
+    This report contains documented information
+    entered by authorized users.
+
+    `;
+
+    const blob=
+        new Blob([content],{
+            type:"text/plain"
+        });
+
+    const url=
+        URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+
+    a.download="AYUSH-Case-Report.txt";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+        "Report generated ✓"
+    );
+
+}
+
+
+// TOAST
+
+function showToast(message){
+
+    const toast=
+        document.getElementById("toast");
+
+    toast.innerText=message;
+
+    toast.style.display="block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer=
+        setTimeout(()=>{
+            toast.style.display="none";
+        },3000);
+
+}
+
+
+// INITIALIZATION
+
+document.getElementById("caseDate").value=
+    new Date().toISOString().split("T")[0];
+
+updateCase();
+
+</script>
+
+</body>
+</html>
